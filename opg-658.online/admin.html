@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель - Система учёта очков ОПГ</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>👑 Админ-панель</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-tab="users">
+                    <span class="nav-icon">👥</span>
+                    Участники
+                </button>
+                <button class="nav-item" data-tab="admins">
+                    <span class="nav-icon">👑</span>
+                    Администраторы
+                </button>
+                <button class="nav-item" data-tab="add-points">
+                    <span class="nav-icon">➕</span>
+                    Добавить очки
+                </button>
+                <button class="nav-item" data-tab="remove-points">
+                    <span class="nav-icon">➖</span>
+                    Списать очки
+                </button>
+                <button class="nav-item" data-tab="history">
+                    <span class="nav-icon">📊</span>
+                    История операций
+                </button>
+                <button class="nav-item" data-tab="achievements">
+                    <span class="nav-icon">🏆</span>
+                    Достижения
+                </button>
+                <button class="nav-item" data-tab="settings">
+                    <span class="nav-icon">⚙️</span>
+                    Настройки
+                </button>
+                <button class="nav-item" data-tab="calculator">
+                    <span class="nav-icon">🧮</span>
+                    Калькулятор
+                </button>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <section class="tab-content active" id="users">
+                <div class="section-header">
+                    <h2>Список участников</h2>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">➕ Добавить участника</button>
+                </div>
+                <div class="users-grid" id="users-grid">
+                </div>
+            </section>
+            <section class="tab-content" id="admins">
+                <div class="section-header">
+                    <h2>Список администраторов</h2>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">➕ Добавить администратора</button>
+                </div>
+                <div class="users-grid" id="admins-grid">
+                </div>
+            </section>
+            <section class="tab-content" id="add-points">
+                <div class="section-header">
+                    <h2>Добавить очки участнику</h2>
+                </div>
+                <div class="form-container">
+                    <form class="points-form" id="add-points-form">
+                        <div class="form-group">
+                            <label for="user-select-add">Выберите участника:</label>
+                            <select id="user-select-add" class="form-control" required>
+                                <option value="">Выберите участника...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="points-amount-add">Количество очков:</label>
+                            <input type="number" id="points-amount-add" class="form-control" placeholder="Введите количество очков" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason-add">Причина:</label>
+                            <textarea id="reason-add" class="form-control" placeholder="Укажите причину начисления очков" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-large">➕ Добавить очки</button>
+                    </form>
+                </div>
+            </section>
+            <section class="tab-content" id="remove-points">
+                <div class="section-header">
+                    <h2>Списать очки у участника</h2>
+                </div>
+                <div class="form-container">
+                    <form class="points-form" id="remove-points-form">
+                        <div class="form-group">
+                            <label for="user-select-remove">Выберите участника:</label>
+                            <select id="user-select-remove" class="form-control" required>
+                                <option value="">Выберите участника...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="points-amount-remove">Количество очков:</label>
+                            <input type="number" id="points-amount-remove" class="form-control" placeholder="Введите количество очков" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reason-remove">Причина:</label>
+                            <textarea id="reason-remove" class="form-control" placeholder="Укажите причину списания очков" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-large">➖ Списать очки</button>
+                    </form>
+                </div>
+            </section>
+            <section class="tab-content" id="history">
+                <div class="section-header">
+                    <h2>История операций</h2>
+                </div>
+                <div class="history-list" id="history-list">
+                </div>
+            </section>
+            <section class="tab-content" id="achievements">
+                <div class="section-header">
+                    <h2>Управление достижениями</h2>
+                    <button class="btn btn-primary" onclick="showAddAchievementModal()">➕ Добавить достижение</button>
+                </div>
+                <div class="achievements-grid" id="achievements-grid">
+                </div>
+            </section>
+            <section class="tab-content" id="settings">
+                <div class="section-header">
+                    <h2>Настройки системы</h2>
+                </div>
+                <div class="settings-container">
+                    <div class="setting-item">
+                        <label for="music-enabled">Музыка:</label>
+                        <select id="music-enabled" class="form-control">
+                            <option value="1">Включена</option>
+                            <option value="0">Отключена</option>
+                        </select>
+                        <p class="setting-description">Включить/отключить музыку для пользователей</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSettings()">💾 Сохранить настройки</button>
+                </div>
+            </section>
+            <section class="tab-content" id="calculator">
+                <div class="section-header">
+                    <h2>🧮 Калькулятор очков</h2>
+                </div>
+                <div class="calculator-container">
+                    <div class="formula-block">
+                        <h3>📊 Расчёт баллов</h3>
+                        <div class="formula-display">
+                            <div class="formula-text">
+                                <strong>Формула: ⌊ (P × c × q × t) / N ⌋</strong>
+                            </div>
+                            <div class="formula-explanation">
+                                <p><strong>P</strong> — базовые баллы; <strong>c</strong> — доля выполнения (0..1);
+                                    <strong>N</strong> — число участников;
+                                    <strong>q</strong>, <strong>t</strong> — множители качества/срока.</p>
+                            </div>
+                        </div>
+                        <div class="formula-inputs">
+                            <div class="input-group">
+                                <label for="base-points">P (базовые баллы):</label>
+                                <input type="number" id="base-points" class="form-control" placeholder="3" step="1" min="0" value="3">
+                            </div>
+                            <div class="input-group">
+                                <label for="completion">c (доля выполнения, 0..1):</label>
+                                <input type="number" id="completion" class="form-control" placeholder="1.0" step="0.01" min="0" max="1" value="1">
+                            </div>
+                            <div class="input-group">
+                                <label for="quality">q (качество):</label>
+                                <input type="number" id="quality" class="form-control" placeholder="1" step="0.01" min="0" value="1">
+                            </div>
+                            <div class="input-group">
+                                <label for="timeliness">t (срок):</label>
+                                <input type="number" id="timeliness" class="form-control" placeholder="1" step="0.01" min="0" value="1">
+                            </div>
+                            <div class="input-group">
+                                <label for="helpers-count">Кол-во помощников:</label>
+                                <input type="number" id="helpers-count" class="form-control" placeholder="0" step="1" min="0" value="0">
+                            </div>
+                        </div>
+                        <div class="formula-result">
+                            <div>
+                                <span class="result-label">Баллы участника:</span>
+                                <span class="result-value" id="calc-main">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="add-user-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить участника</h3>
+                <button class="modal-close" onclick="closeModal('add-user-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new-username">Имя пользователя:</label>
+                    <input type="text" id="new-username" class="form-control" placeholder="Введите имя" required>
+                </div>
+                                        <div class="form-group">
+                            <label for="new-avatar">Аватар:</label>
+                            <input type="text" id="new-avatar" class="form-control" placeholder="👤" value="">
+                        </div>
+                <div class="form-group">
+                    <label for="new-role">Роль:</label>
+                    <select id="new-role" class="form-control">
+                        <option value="user">Участник</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-user-modal')">Отмена</button>
+                <button class="btn btn-primary" onclick="addUser()">➕ Добавить</button>
+            </div>
+        </div>
+    </div>
+    <div id="add-achievement-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить достижение</h3>
+                <button class="modal-close" onclick="closeModal('add-achievement-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="achievement-name">Название:</label>
+                    <input type="text" id="achievement-name" class="form-control" placeholder="Название достижения" required>
+                </div>
+                <div class="form-group">
+                    <label for="achievement-description">Описание:</label>
+                    <textarea id="achievement-description" class="form-control" placeholder="Описание достижения" rows="3" required></textarea>
+                </div>
+                                        <div class="form-group">
+                            <label for="achievement-icon">Иконка:</label>
+                            <input type="text" id="achievement-icon" class="form-control" placeholder="🏆" value="">
+                        </div>
+                <div class="form-group">
+                    <label for="achievement-points">Требуемые очки:</label>
+                    <input type="number" id="achievement-points" class="form-control" placeholder="0" min="0" value="0">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('add-achievement-modal')">Отмена</button>
+                <button class="btn btn-primary" onclick="addAchievement()">➕ Добавить</button>
+            </div>
+        </div>
+    </div>
+    <script src="admin.js?v=3"></script>
+</body>
+</html>
